@@ -184,18 +184,11 @@ public class XmppConnectReceiver extends BroadcastReceiver {
             boolean isSuccess = false;
             if (connect()) {
                 if (register(newUsername, newPassword)) {
-                    SharedPreferences.Editor editor = sharedPrefs.edit();
-                    editor.putString(Constants.XMPP_USERNAME, newUsername);
-                    editor.putString(Constants.XMPP_PASSWORD, newPassword);
-                    editor.commit();
-                    BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_REGISTER_SUCCESS);
-
                     String username = sharedPrefs.getString(Constants.XMPP_USERNAME, "");
                     String password = sharedPrefs.getString(Constants.XMPP_PASSWORD, "");
                     if (login(username, password)) {
                         isSuccess = true;
                         BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_LOGINED);
-                    } else {
                     }
                 } else {
                     BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_REGISTER_FAIL);
@@ -283,11 +276,21 @@ public class XmppConnectReceiver extends BroadcastReceiver {
                     return false;
                 } else if (result.getType() == IQ.Type.ERROR) {
                     if (result.getError().toString().contains("409")) {
+                        SharedPreferences.Editor editor = sharedPrefs.edit();
+                        editor.putString(Constants.XMPP_USERNAME, user);
+                        editor.putString(Constants.XMPP_PASSWORD, pass);
+                        editor.commit();
+                        BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_REGISTER_SUCCESS);
                         return true;
                     } else {
                         return false;
                     }
                 } else if (result.getType() == IQ.Type.RESULT) {
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putString(Constants.XMPP_USERNAME, user);
+                    editor.putString(Constants.XMPP_PASSWORD, pass);
+                    editor.commit();
+                    BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_REGISTER_SUCCESS);
                     return true;
                 }
                 return false;
@@ -307,9 +310,7 @@ public class XmppConnectReceiver extends BroadcastReceiver {
 
             BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_LOGINING);
             try {
-                xmppManager.getConnection().login(
-                        user,
-                        pass, XmppManager.XMPP_RESOURCE_NAME);
+                xmppManager.getConnection().login(user, pass, XmppManager.XMPP_RESOURCE_NAME);
                 Log.d(LOG_TAG, "Loggedn in successfully");
                 BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_LOGIN_SUCCESS);
 
@@ -321,8 +322,7 @@ public class XmppConnectReceiver extends BroadcastReceiver {
                 PacketFilter packetFilter = null;
                 if (NotifierConfig.iq == null) {
                     // packet filter
-                    packetFilter = new PacketTypeFilter(
-                            NotificationIQ.class);
+                    packetFilter = new PacketTypeFilter(NotificationIQ.class);
                 } else {
                     packetFilter = new PacketTypeFilter(Class.forName(NotifierConfig.iq));
                 }
