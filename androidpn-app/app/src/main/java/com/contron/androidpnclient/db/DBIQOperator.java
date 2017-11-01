@@ -6,9 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.contron.androidpnclient.notify.NotifyIQ;
-
 import org.androidpn.client.LogUtil;
+import org.androidpn.client.NotificationIQ;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class DBIQOperator {
         dbOpenHelper = new DBOpenHelper(context);
     }
 
-    public void saveIQ(NotifyIQ iq) {
+    public void saveIQ(NotificationIQ iq) {
         Log.d(LOG_TAG, "saveIq: " + iq.toString());
         ContentValues cv = new ContentValues();
         cv.put(DBConsts.IQ_ID, iq.getId());
@@ -50,10 +49,10 @@ public class DBIQOperator {
         return cursor;
     }
 
-    public List<NotifyIQ> queryAllIQS() {
+    public List<NotificationIQ> queryAllIQS() {
         SQLiteDatabase dbReader = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbReader.rawQuery(DBConsts.QUERY_ALL_IQ, null);
-        ArrayList<NotifyIQ> notifyIQs = new ArrayList<NotifyIQ>();
+        ArrayList<NotificationIQ> notifyIQs = new ArrayList<NotificationIQ>();
         final int idIndex = cursor.getColumnIndex(DBConsts.IQ_ID);
         final int keyIndex = cursor.getColumnIndex(DBConsts.IQ_APIKEY);
         final int msgIndex = cursor.getColumnIndex(DBConsts.IQ_MSG);
@@ -61,7 +60,7 @@ public class DBIQOperator {
         final int uriIndex = cursor.getColumnIndex(DBConsts.IQ_URI);
         final int timeIndex = cursor.getColumnIndex(DBConsts.IQ_TIME);
         while(cursor.moveToNext()){
-            NotifyIQ iq = new NotifyIQ();
+            NotificationIQ iq = new NotificationIQ();
             iq.setId(cursor.getString(idIndex));
             iq.setApiKey(cursor.getString(keyIndex));
             iq.setMessage(cursor.getString(msgIndex));
@@ -75,10 +74,10 @@ public class DBIQOperator {
         return notifyIQs;
     }
 
-    public NotifyIQ queryIQBy_Id(long _id) {
+    public NotificationIQ queryIQBy_Id(long _id) {
         SQLiteDatabase dbReader = dbOpenHelper.getReadableDatabase();
         Cursor cursor = dbReader.rawQuery(DBConsts.QUERY_IQ_BY_TABLE_ID + _id, null);
-        NotifyIQ iq = new NotifyIQ();
+        NotificationIQ iq = new NotificationIQ();
         if(cursor != null && cursor.getCount() > 0) {
             cursor.moveToNext();
             iq.setId(CursorUtil.getString(cursor, DBConsts.IQ_ID));

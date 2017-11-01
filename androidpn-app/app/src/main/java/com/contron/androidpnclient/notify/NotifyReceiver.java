@@ -15,7 +15,6 @@
  */
 package com.contron.androidpnclient.notify;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -24,6 +23,8 @@ import com.contron.androidpn.apnbb.Constants;
 import com.contron.androidpnclient.db.DBIQOperator;
 
 import org.androidpn.client.LogUtil;
+import org.androidpn.client.NotificationIQ;
+import org.androidpn.client.NotificationReceiver;
 import org.androidpn.client.Notifier;
 
 
@@ -33,12 +34,9 @@ import org.androidpn.client.Notifier;
  *
  * @author Geek_Solodad (msdx.android@qq.com)
  */
-public final class NotifyReceiver extends BroadcastReceiver {
+public final class NotifyReceiver extends NotificationReceiver {
 
-    private static final String LOGTAG = LogUtil
-            .makeLogTag(NotifyReceiver.class);
-
-    public static final String ACTION_SHOW_NOTIFICATION = "com.githang.android.apnbb.demo.SHOW_NOTIFICATION";
+    private static final String LOGTAG = LogUtil.makeLogTag(NotifyReceiver.class);
 
     public NotifyReceiver() {
     }
@@ -49,19 +47,38 @@ public final class NotifyReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         Log.d(LOGTAG, "action=" + action);
 
-        if (ACTION_SHOW_NOTIFICATION.equals(action)) {
+        if (Constants.ACTION_SHOW_NOTIFICATION.equals(action)) {
+            String notificationId = intent.getStringExtra(Constants.NOTIFICATION_ID);
+            String notificationApiKey = intent.getStringExtra(Constants.NOTIFICATION_API_KEY);
+            String notificationTitle = intent.getStringExtra(Constants.NOTIFICATION_TITLE);
+            String notificationMessage = intent.getStringExtra(Constants.NOTIFICATION_MESSAGE);
+            String notificationUri = intent.getStringExtra(Constants.NOTIFICATION_URI);
+            String packetId = intent.getStringExtra(Constants.PACKET_ID);
+
+            Log.d(LOGTAG, "notificationId=" + notificationId);
+            Log.d(LOGTAG, "notificationApiKey=" + notificationApiKey);
+            Log.d(LOGTAG, "notificationTitle=" + notificationTitle);
+            Log.d(LOGTAG, "notificationMessage=" + notificationMessage);
+            Log.d(LOGTAG, "notificationUri=" + notificationUri);
+            Log.d(LOGTAG, "packetId=" + packetId);
+
             Object object = intent.getSerializableExtra(Constants.INTENT_EXTRA_IQ);
-            if (object != null && object instanceof NotifyIQ) {
-                NotifyIQ iq = (NotifyIQ) object;
+            if (object != null && object instanceof NotificationIQ) {
+                NotificationIQ iq = (NotificationIQ) object;
 
                 Notifier notifier = new Notifier(context);
                 notifier.notify(iq, iq.getTitle(), iq.getMessage());
                 saveToDb(context, iq);
             }
+        } else if (Constants.ACTION_NOTIFICATION_CLICKED.equals(action)) {
+            Intent intentActivity = new Intent(context, NotifyDetailActivity.class);
+            intentActivity.putExtras(intent);
+            intentActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intentActivity);
         }
     }
 
-    private void saveToDb(Context context, NotifyIQ iq) {
+    private void saveToDb(Context context, NotificationIQ iq) {
         DBIQOperator operator = new DBIQOperator(context);
         operator.saveIQ(iq);
     }

@@ -11,6 +11,7 @@ import com.contron.androidpn.apnbb.Constants;
 import com.contron.androidpnclient.R;
 
 import org.androidpn.client.LogUtil;
+import org.androidpn.client.NotificationIQ;
 
 
 public class NotifyDetailActivity extends ActionBarActivity {
@@ -22,11 +23,11 @@ public class NotifyDetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_notify_detail);
         Intent intent = getIntent();
         Object o = intent.getSerializableExtra(Constants.INTENT_EXTRA_IQ);
-        if (o == null || !(o instanceof NotifyIQ)) {
+        if (o == null || !(o instanceof NotificationIQ)) {
             Log.e(LOG_TAG, "the extra is null");
             return;
         }
-        NotifyIQ iq = (NotifyIQ) o;
+        NotificationIQ iq = (NotificationIQ) o;
         showTextView((TextView) findViewById(R.id.notify_title), iq.getTitle());
         showTextView((TextView) findViewById(R.id.notify_msg), iq.getMessage());
         showTextView((TextView) findViewById(R.id.notify_uri), iq.getUri());

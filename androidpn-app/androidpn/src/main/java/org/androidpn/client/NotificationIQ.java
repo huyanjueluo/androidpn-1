@@ -34,6 +34,8 @@ public class NotificationIQ extends IQ {
 
     private String uri;
 
+    private String time;
+
     public NotificationIQ() {
     }
 
@@ -87,6 +89,14 @@ public class NotificationIQ extends IQ {
 
     public void setUri(String url) {
         this.uri = url;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
 }

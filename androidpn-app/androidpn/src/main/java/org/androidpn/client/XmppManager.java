@@ -86,15 +86,15 @@ public class XmppManager {
 
     }
 
-    protected void showToast(final String msg) {
-        toastHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context.getApplicationContext(), appName + msg, Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
+//    protected void showToast(final String msg) {
+//        toastHandler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast.makeText(context.getApplicationContext(), appName + msg, Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//    }
 
     public Context getContext() {
         return context;
@@ -107,7 +107,7 @@ public class XmppManager {
 
     public void disconnect() {
         Log.d(LOGTAG, "disconnect()...");
-        showToast("断开连接");
+        //showToast("断开连接");
         BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_DISCONNECT);
         Thread.currentThread().dumpStack();
         terminatePersistentConnection();

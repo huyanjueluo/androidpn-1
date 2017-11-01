@@ -25,15 +25,14 @@ import com.contron.androidpn.apnbb.BroadcastUtil;
 import com.contron.androidpn.apnbb.Constants;
 
 
-/** 
- * This class notifies the receiver of incoming notifcation packets asynchronously.  
+/**
+ * This class notifies the receiver of incoming notifcation packets asynchronously.
  *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
 public class NotificationPacketListener implements PacketListener {
 
-    private static final String LOGTAG = LogUtil
-            .makeLogTag(NotificationPacketListener.class);
+    private static final String LOGTAG = LogUtil.makeLogTag(NotificationPacketListener.class);
 
     private final XmppManager xmppManager;
 
@@ -47,31 +46,30 @@ public class NotificationPacketListener implements PacketListener {
         Log.d(LOGTAG, "packet.toXML()=" + packet.toXML());
 
         if (packet instanceof NotificationIQ) {
-            NotificationIQ notification = (NotificationIQ) packet;
+            NotificationIQ notificationIQ = (NotificationIQ) packet;
 
-            if (notification.getChildElementXML().contains(
+            if (notificationIQ.getChildElementXML().contains(
                     "androidpn:iq:notification")) {
-                String notificationId = notification.getId();
-                String notificationApiKey = notification.getApiKey();
-                String notificationTitle = notification.getTitle();
-                String notificationMessage = notification.getMessage();
-                String notificationUri = notification.getUri();
-                String packetId = notification.getPacketID();
+                String notificationId = notificationIQ.getId();
+                String notificationApiKey = notificationIQ.getApiKey();
+                String notificationTitle = notificationIQ.getTitle();
+                String notificationMessage = notificationIQ.getMessage();
+                String notificationUri = notificationIQ.getUri();
+                String packetId = notificationIQ.getPacketID();
 
                 Intent intent = new Intent(Constants.ACTION_SHOW_NOTIFICATION);
                 intent.putExtra(Constants.NOTIFICATION_ID, notificationId);
-                intent.putExtra(Constants.NOTIFICATION_API_KEY,
-                        notificationApiKey);
-                intent
-                        .putExtra(Constants.NOTIFICATION_TITLE,
-                                notificationTitle);
-                intent.putExtra(Constants.NOTIFICATION_MESSAGE,
-                        notificationMessage);
+                intent.putExtra(Constants.NOTIFICATION_API_KEY, notificationApiKey);
+                intent.putExtra(Constants.NOTIFICATION_TITLE, notificationTitle);
+                intent.putExtra(Constants.NOTIFICATION_MESSAGE, notificationMessage);
                 intent.putExtra(Constants.NOTIFICATION_URI, notificationUri);
                 intent.putExtra(Constants.PACKET_ID, packetId);
+                intent.putExtra(Constants.INTENT_EXTRA_IQ, notificationIQ);
+
                 Intent receiptIntent = new Intent(BroadcastUtil.APN_ACTION_RECEIPT);
-                receiptIntent.putExtra(Constants.INTENT_EXTRA_IQ, notification);
+                receiptIntent.putExtra(Constants.INTENT_EXTRA_IQ, notificationIQ);
                 BroadcastUtil.sendBroadcast(xmppManager.getContext(), receiptIntent);
+
                 xmppManager.getContext().sendBroadcast(intent);
             }
         }

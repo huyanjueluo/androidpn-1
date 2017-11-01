@@ -39,14 +39,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.androidpn.client.NotificationDetailsActivity"
-            android:label="Notification Details" >
-        </activity>
-        <activity
             android:name="org.androidpn.client.NotificationSettingsActivity"
             android:label="Notification Settings" >
         </activity>
-
+        <service android:name="org.androidpn.client.ForegroundEnablingService"/>
         <service
             android:name="org.androidpn.client.NotificationService"
             android:enabled="true"
@@ -72,7 +68,8 @@
         <receiver android:name=".notify.NotifyReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.githang.android.apnbb.demo.SHOW_NOTIFICATION" />
+                <action android:name="org.androidpn.client.SHOW_NOTIFICATION" />
+                <action android:name="org.androidpn.client.NOTIFICATION_CLICKED" />
             </intent-filter>
         </receiver>
 

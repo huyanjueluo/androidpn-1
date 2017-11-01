@@ -17,6 +17,7 @@ import com.contron.androidpnclient.db.DBConsts;
 import com.contron.androidpnclient.db.DBIQOperator;
 
 import org.androidpn.client.LogUtil;
+import org.androidpn.client.NotificationIQ;
 
 
 public class NotifyListActivity extends ActionBarActivity {
@@ -39,7 +40,7 @@ public class NotifyListActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                NotifyIQ iq = operator.queryIQBy_Id(id);
+                NotificationIQ iq = operator.queryIQBy_Id(id);
                 startActivity(new Intent(NotifyListActivity.this, NotifyDetailActivity.class).putExtra(Constants.INTENT_EXTRA_IQ, iq));
             }
         });

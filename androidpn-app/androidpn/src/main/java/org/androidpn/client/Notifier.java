@@ -24,7 +24,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import com.contron.androidpn.apnbb.Constants;
 import com.contron.androidpn.apnbb.NotifierConfig;
 
@@ -82,15 +81,10 @@ public class Notifier {
     }
 
 
-    public void notify(String notificationId, String apiKey, String title,
-                       String message, String uri, String packetId) {
-        Log.d(LOGTAG, "notify()...");
-
-        Log.d(LOGTAG, "notificationId=" + notificationId);
-        Log.d(LOGTAG, "notificationApiKey=" + apiKey);
-        Log.d(LOGTAG, "notificationTitle=" + title);
-        Log.d(LOGTAG, "notificationMessage=" + message);
-        Log.d(LOGTAG, "notificationUri=" + uri);
+    public void notifyBroadcast(Intent intentSrc) {
+        Log.d(LOGTAG, "notifyBroadcast()...");
+        String title = intentSrc.getStringExtra(Constants.NOTIFICATION_TITLE);
+        String message = intentSrc.getStringExtra(Constants.NOTIFICATION_MESSAGE);
 
         if (isNotificationEnabled()) {
             // Show the toast
@@ -99,24 +93,13 @@ public class Notifier {
             }
 
             // Notification
-            Notification notification =createNotification(message);
+            Notification notification = createNotification(message);
 
-            Intent intent = new Intent(context,
-                    NotificationDetailsActivity.class);
-            intent.putExtra(Constants.NOTIFICATION_ID, notificationId);
-            intent.putExtra(Constants.NOTIFICATION_API_KEY, apiKey);
-            intent.putExtra(Constants.NOTIFICATION_TITLE, title);
-            intent.putExtra(Constants.NOTIFICATION_MESSAGE, message);
-            intent.putExtra(Constants.NOTIFICATION_URI, uri);
-            intent.putExtra(Constants.PACKET_ID, packetId);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            Intent intentClick = new Intent(Constants.ACTION_NOTIFICATION_CLICKED);
+            intentClick.putExtras(intentSrc);
 
-            PendingIntent contentIntent = PendingIntent.getActivity(context, requestCode,
-                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent contentIntent = PendingIntent.getBroadcast(context, requestCode,
+                    intentClick, PendingIntent.FLAG_UPDATE_CURRENT);
 
             notification.setLatestEventInfo(context, title, message,
                     contentIntent);

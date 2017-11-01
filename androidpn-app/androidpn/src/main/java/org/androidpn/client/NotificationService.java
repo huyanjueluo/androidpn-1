@@ -15,11 +15,6 @@
  */
 package org.androidpn.client;
 
-import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -28,6 +23,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.telephony.PhoneStateListener;
@@ -36,18 +32,25 @@ import android.util.Log;
 
 import com.contron.androidpn.apnbb.Constants;
 
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 
 /**
- * Service that continues to run in background and respond to the push 
+ * Service that continues to run in background and respond to the push
  * notification events from the server. This should be registered as service
- * in AndroidManifest.xml. 
- * 
+ * in AndroidManifest.xml.
+ *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
 public class NotificationService extends Service {
 
     private static final String LOGTAG = LogUtil
             .makeLogTag(NotificationService.class);
+
+    static NotificationService instance;
 
     private TelephonyManager telephonyManager;
 
@@ -86,6 +89,12 @@ public class NotificationService extends Service {
     @Override
     public void onCreate() {
         Log.d(LOGTAG, "onCreate()...");
+        instance = this;
+        // sdk < 18 , 直接调用startForeground即可,不会在通知栏创建通知
+        if (Build.VERSION.SDK_INT >= 18) {
+            if (startService(new Intent(this, ForegroundEnablingService.class)) == null)
+                throw new RuntimeException("Couldn't find " + ForegroundEnablingService.class.getSimpleName());
+        }
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
         sharedPrefs = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME,
@@ -132,7 +141,10 @@ public class NotificationService extends Service {
     public void onStart(Intent intent, int startId) {
         Log.d(LOGTAG, "onStart()...");
         acquireWakeLock();
-        avoidServerBeKill();
+        // sdk < 18 , 直接调用startForeground即可,不会在通知栏创建通知
+        if (Build.VERSION.SDK_INT < 18) {
+            avoidServerBeKill();
+        }
     }
 
     @Override
@@ -143,6 +155,7 @@ public class NotificationService extends Service {
     @Override
     public void onDestroy() {
         Log.d(LOGTAG, "onDestroy()...");
+        instance = null;
         stop();
 
         // restart the service when it destroy.
@@ -173,11 +186,11 @@ public class NotificationService extends Service {
     }
 
     private final void acquireWakeLock() {
-        if(mWakeLock == null) {
+        if (mWakeLock == null) {
             PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
             mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, this.getPackageName());
         }
-        if(mWakeLock != null) {
+        if (mWakeLock != null) {
             mWakeLock.acquire();
             Log.d(LOGTAG, "mWakeLock.acquire()");
         }
@@ -185,7 +198,7 @@ public class NotificationService extends Service {
 
     private final void releaseWakeLock() {
         Log.d(LOGTAG, "releaseWakeLock");
-        if(mWakeLock != null) {
+        if (mWakeLock != null) {
             mWakeLock.release();
             mWakeLock = null;
         }
