@@ -1,0 +1,11 @@
+.metadata
+.recommenders
+RemoteSystemsTempFiles
+Servers
+/androidpn-server-client/.settings
+/androidpn-server-client/bin
+/androidpn-server-tomcat/.settings
+/androidpn-app/.gradle
+/androidpn-app/.idea
+/androidpn-app/build
+/androidpn-app/app/build
