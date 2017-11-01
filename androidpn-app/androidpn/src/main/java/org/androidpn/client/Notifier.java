@@ -34,7 +34,7 @@ import org.jivesoftware.smack.packet.IQ;
  *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public class Notifier {
+class Notifier {
 
     private static final String LOGTAG = LogUtil.makeLogTag(Notifier.class);
 
@@ -58,9 +58,6 @@ public class Notifier {
             Log.w(LOGTAG, "Notificaitons disabled.");
             return;
         }
-        if (isNotificationToastEnabled()) {
-            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-        }
 
         // Notification
         Notification notification = createNotification(message);
@@ -83,16 +80,17 @@ public class Notifier {
 
     public void notifyBroadcast(Intent intentSrc) {
         Log.d(LOGTAG, "notifyBroadcast()...");
+
+        if (!isNotificationEnabled()) {
+            Log.w(LOGTAG, "Notificaitons disabled.");
+            return;
+        }
+
         String title = intentSrc.getStringExtra(Constants.NOTIFICATION_TITLE);
         String message = intentSrc.getStringExtra(Constants.NOTIFICATION_MESSAGE);
 
         if (isNotificationEnabled()) {
-            // Show the toast
-            if (isNotificationToastEnabled()) {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-            }
-
-            // Notification
+               // Notification
             Notification notification = createNotification(message);
 
             Intent intentClick = new Intent(Constants.ACTION_NOTIFICATION_CLICKED);

@@ -37,8 +37,7 @@ import java.util.UUID;
 public class UUIDUtil {
 
     private static String sID = null;
-    private static final String INSTALLATION = "INSTALLATION-"
-            + UUID.nameUUIDFromBytes("androidkit".getBytes());
+    private static final String INSTALLATION = "INSTALLATION-" + UUID.nameUUIDFromBytes("androidkit".getBytes());
 
     /**
      * 返回该设备在此程序上的唯一标识符。

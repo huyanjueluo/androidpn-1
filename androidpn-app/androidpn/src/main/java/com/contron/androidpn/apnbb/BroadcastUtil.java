@@ -35,6 +35,10 @@ public class BroadcastUtil {
     public static final String APN_STATUS_LOGIN_SUCCESS = "org.androidpn.client.ANDROIDPN_STATUS_LOGIN_SUCCESS";
     // 登录失败
     public static final String APN_STATUS_LOGIN_FAIL = "org.androidpn.client.ANDROIDPN_STATUS_LOGIN_FAIL";
+    //注册成功
+    public static final String APN_STATUS_REGISTER_SUCCESS = "org.androidpn.client.ANDROIDPN_STATUS_REGISTER_SUCCESS";
+    //注册失败
+    public static final String APN_STATUS_REGISTER_FAIL = "org.androidpn.client.ANDROIDPN_STATUS_REGISTER_FAIL";
 
     // BROADCAST FOR ANDROIDPN ACTION
 

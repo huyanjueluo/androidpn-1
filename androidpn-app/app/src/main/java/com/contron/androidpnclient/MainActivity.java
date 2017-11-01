@@ -7,18 +7,19 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.contron.androidpn.apnbb.BroadcastUtil;
 import com.contron.androidpnclient.notify.NotifyListActivity;
 import com.contron.androidpnclient.notify.NotifySettingsActivity;
 
+import org.androidpn.client.AndroidpnClient;
 import org.androidpn.client.LogUtil;
 import org.androidpn.client.ServiceManager;
 
@@ -102,6 +103,8 @@ public class MainActivity extends ActionBarActivity {
             filter.addAction(BroadcastUtil.APN_STATUS_RECONNECTING);
             filter.addAction(BroadcastUtil.APN_STATUS_CONNECTING);
             filter.addAction(BroadcastUtil.ANDROIDPN_MSG_RECEIVER_READY);
+            filter.addAction(BroadcastUtil.APN_STATUS_LOGIN_SUCCESS);
+            filter.addAction(BroadcastUtil.APN_STATUS_REGISTER_SUCCESS);
             lbm.registerReceiver(this, filter);
         }
 
@@ -136,6 +139,11 @@ public class MainActivity extends ActionBarActivity {
             } else if (BroadcastUtil.APN_STATUS_CONNECTING.equals(action)) {
                 topTextView.setText(R.string.status_conning);
                 login.setVisibility(View.GONE);
+            } else if (BroadcastUtil.APN_STATUS_LOGIN_SUCCESS.equals(action)) {
+                Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
+            } else if (BroadcastUtil.APN_STATUS_REGISTER_SUCCESS.equals(action)) {
+                Toast.makeText(context, "注册成功" + AndroidpnClient.getInstance(
+                        getApplicationContext()).getUserName(), Toast.LENGTH_SHORT).show();
             }
         }
     }

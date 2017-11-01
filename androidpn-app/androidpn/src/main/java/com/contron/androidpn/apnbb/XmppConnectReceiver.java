@@ -24,11 +24,9 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.filter.PacketIDFilter;
 import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.IQ;
-import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Registration;
 import org.jivesoftware.smack.provider.ProviderManager;
 
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -184,27 +182,29 @@ public class XmppConnectReceiver extends BroadcastReceiver {
             final String newPassword = uuid;
             isConnecting = true;
             boolean isSuccess = false;
-            if(connect()) {
-                if(register(newUsername, newPassword)) {
+            if (connect()) {
+                if (register(newUsername, newPassword)) {
                     SharedPreferences.Editor editor = sharedPrefs.edit();
-                    editor.putString(Constants.XMPP_USERNAME,
-                            newUsername);
-                    editor.putString(Constants.XMPP_PASSWORD,
-                            newPassword);
+                    editor.putString(Constants.XMPP_USERNAME, newUsername);
+                    editor.putString(Constants.XMPP_PASSWORD, newPassword);
                     editor.commit();
+                    BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_REGISTER_SUCCESS);
+
                     String username = sharedPrefs.getString(Constants.XMPP_USERNAME, "");
                     String password = sharedPrefs.getString(Constants.XMPP_PASSWORD, "");
-                    if(login(username, password)) {
+                    if (login(username, password)) {
                         isSuccess = true;
                         BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_LOGINED);
                     } else {
                     }
+                } else {
+                    BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_REGISTER_FAIL);
                 }
             } else {
                 BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_STATUS_CONNECT_FAILED);
             }
             isConnecting = false;
-            if(!isSuccess) {
+            if (!isSuccess) {
                 BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_ACTION_RECONNECT);
             }
         }
@@ -278,11 +278,11 @@ public class XmppConnectReceiver extends BroadcastReceiver {
                 xmppManager.getConnection().sendPacket(registration);
                 IQ result = (IQ) collector.nextResult(REGISTER_TIME_OUT);
                 collector.cancel();
-                if(result == null) {
+                if (result == null) {
                     Log.d(LOG_TAG, "The server didn't return result after 60 seconds.");
                     return false;
                 } else if (result.getType() == IQ.Type.ERROR) {
-                    if(result.getError().toString().contains("409")) {
+                    if (result.getError().toString().contains("409")) {
                         return true;
                     } else {
                         return false;
@@ -373,7 +373,7 @@ public class XmppConnectReceiver extends BroadcastReceiver {
                 DelayTime.resetTimes();
                 return;
             }
-            if(isConnecting) {
+            if (isConnecting) {
                 return;
             }
             Log.d(LOG_TAG, "reconnectTask...");

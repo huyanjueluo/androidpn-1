@@ -25,7 +25,6 @@ import com.contron.androidpnclient.db.DBIQOperator;
 import org.androidpn.client.LogUtil;
 import org.androidpn.client.NotificationIQ;
 import org.androidpn.client.NotificationReceiver;
-import org.androidpn.client.Notifier;
 
 
 /**
@@ -65,9 +64,6 @@ public final class NotifyReceiver extends NotificationReceiver {
             Object object = intent.getSerializableExtra(Constants.INTENT_EXTRA_IQ);
             if (object != null && object instanceof NotificationIQ) {
                 NotificationIQ iq = (NotificationIQ) object;
-
-                Notifier notifier = new Notifier(context);
-                notifier.notify(iq, iq.getTitle(), iq.getMessage());
                 saveToDb(context, iq);
             }
         } else if (Constants.ACTION_NOTIFICATION_CLICKED.equals(action)) {
