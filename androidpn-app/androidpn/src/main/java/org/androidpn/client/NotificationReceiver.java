@@ -42,7 +42,6 @@ public class NotificationReceiver extends BroadcastReceiver {
         Log.d(LOGTAG, "NotificationReceiver.onReceive()...");
         String action = intent.getAction();
         Log.d(LOGTAG, "action=" + action);
-
         if (Constants.ACTION_SHOW_NOTIFICATION.equals(action)) {
             Notifier notifier = new Notifier(context);
             notifier.notifyBroadcast(intent);

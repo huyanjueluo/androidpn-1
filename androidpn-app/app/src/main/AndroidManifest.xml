@@ -8,10 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <!--接收开机启动的通知的权限，实现服务开机自启的必要权限-->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!--唤醒权限，避免在锁屏时线程被挂起-->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
      option is required to comply with the Google+ Sign-In developer policies
@@ -67,15 +64,6 @@
             <intent-filter>
                 <action android:name="org.androidpn.client.SHOW_NOTIFICATION" />
                 <action android:name="org.androidpn.client.NOTIFICATION_CLICKED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".notify.AutoRunReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
     </application>

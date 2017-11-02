@@ -97,8 +97,7 @@ public class NotificationService extends Service {
         }
         telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
-        sharedPrefs = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME,
-                Context.MODE_PRIVATE);
+        sharedPrefs = getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
 
         // Get deviceId
         deviceId = telephonyManager.getDeviceId();
@@ -107,15 +106,12 @@ public class NotificationService extends Service {
         editor.commit();
 
         // If running on an emulator
-        if (deviceId == null || deviceId.trim().length() == 0
-                || deviceId.matches("0+")) {
+        if (deviceId == null || deviceId.trim().length() == 0 || deviceId.matches("0+")) {
             if (sharedPrefs.contains("EMULATOR_DEVICE_ID")) {
-                deviceId = sharedPrefs.getString(Constants.EMULATOR_DEVICE_ID,
-                        "");
+                deviceId = sharedPrefs.getString(Constants.EMULATOR_DEVICE_ID, "");
             } else {
                 deviceId = (new StringBuilder("EMU")).append(
-                        (new Random(System.currentTimeMillis())).nextLong())
-                        .toString();
+                        (new Random(System.currentTimeMillis())).nextLong()).toString();
                 editor.putString(Constants.EMULATOR_DEVICE_ID, deviceId);
                 editor.commit();
             }
@@ -260,8 +256,7 @@ public class NotificationService extends Service {
 
     private void registerConnectivityReceiver() {
         Log.d(LOGTAG, "registerConnectivityReceiver()...");
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
+        telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE);
         IntentFilter filter = new IntentFilter();
         // filter.addAction(android.net.wifi.WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(android.net.ConnectivityManager.CONNECTIVITY_ACTION);
@@ -270,8 +265,7 @@ public class NotificationService extends Service {
 
     private void unregisterConnectivityReceiver() {
         Log.d(LOGTAG, "unregisterConnectivityReceiver()...");
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_NONE);
+        telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
         unregisterReceiver(connectivityReceiver);
     }
 
@@ -343,7 +337,5 @@ public class NotificationService extends Service {
                 Log.d(LOGTAG, "Decremented task count to " + count);
             }
         }
-
     }
-
 }

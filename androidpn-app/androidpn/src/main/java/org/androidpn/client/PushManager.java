@@ -16,7 +16,6 @@ public final class PushManager {
     private SharedPreferences sharedPrefs;
 
     public static PushManager getInstance() {
-        // return instance;
         if (instance == null) {
             synchronized (PushManager.class) {
                 instance = new PushManager();
@@ -38,7 +37,6 @@ public final class PushManager {
     }
 
     private void init(Context context) {
-
         notifier = new Notifier(context);
         sharedPrefs = context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
 

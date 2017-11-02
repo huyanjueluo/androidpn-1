@@ -1,19 +1,15 @@
-package com.contron.androidpnclient.notify;
+package org.androidpn.client;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import org.androidpn.client.LogUtil;
-import org.androidpn.client.PushManager;
-
-
+/**
+ * 开机自启广播，用于启动推送服务
+ */
 public class AutoRunReceiver extends BroadcastReceiver {
     private static final String LOG_TAG = LogUtil.makeLogTag(AutoRunReceiver.class);
-
-    public AutoRunReceiver() {
-    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
