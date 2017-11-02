@@ -19,13 +19,13 @@
         <div id="content">
 			<ul id="tabmenu">
 				<li><a href="index.do"
-					class="<c:if test="${topMenu eq 'home'}"><c:out value="current" /></c:if>">Home</a></li>
+					class="<c:if test="${topMenu eq 'home'}"><c:out value="current" /></c:if>">主页</a></li>
 				<li><a href="user.do"
-					class="<c:if test="${topMenu eq 'user'}"><c:out value="current" /></c:if>">Users</a></li>
+					class="<c:if test="${topMenu eq 'user'}"><c:out value="current" /></c:if>">注册设备</a></li>
 				<li><a href="session.do"
-					class="<c:if test="${topMenu eq 'session'}"><c:out value="current" /></c:if>">Sessions</a></li>
+					class="<c:if test="${topMenu eq 'session'}"><c:out value="current" /></c:if>">在线设备</a></li>
 				<li><a href="notification.do"
-					class="<c:if test="${topMenu eq 'notification'}"><c:out value="current" /></c:if>">Notifications</a></li>
+					class="<c:if test="${topMenu eq 'notification'}"><c:out value="current" /></c:if>">推送</a></li>
 			</ul>
 			<div id="tabcontent">
 				<decorator:body/>			

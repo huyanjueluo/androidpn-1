@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.androidpn.server.util.Config;
 import org.androidpn.server.xmpp.push.NotificationManager;
 import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 public class NotificationApiController extends MultiActionController {
@@ -23,13 +22,6 @@ public class NotificationApiController extends MultiActionController {
 
 	public NotificationApiController() {
 		notificationManager = new NotificationManager();
-	}
-
-	public ModelAndView list(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		// mav.addObject("list", null);
-		mav.setViewName("notification/form");
-		return mav;
 	}
 
 	public void send(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -42,18 +34,21 @@ public class NotificationApiController extends MultiActionController {
 		String apiKey = Config.getString("apiKey", "");
 		logger.debug("apiKey=" + apiKey);
 
-		if (broadcast.equalsIgnoreCase("Y")) {
-			notificationManager.sendBroadcastToOnline(apiKey, title, message, uri);
-		} else if (broadcast.equalsIgnoreCase("A")) {
+		if (broadcast.equalsIgnoreCase("A")) {
 			notificationManager.sendBroadcastToAll(apiKey, title, message, uri);
-		} else {
-			notificationManager.sendNotifcationToUser(apiKey, username, title, message, uri);
+		} else if (broadcast.equalsIgnoreCase("N")) {
+			if (!username.contains("，") && !username.contains(",")) {
+				notificationManager.sendNotifcationToUser(apiKey, username, title, message, uri);
+			} else {
+				if (username.contains("，")) {
+					username = username.replaceAll("，", ",");
+				}
+				String[] usernames = username.split(",");
+				notificationManager.sendNotifcationToUserMultiple(apiKey, usernames, title, message, uri);
+			}
 		}
 
 		response.getWriter().print("{\"result\":\"0\",\"description\":\"success\"}");
-		// ModelAndView mav = new ModelAndView();
-		// mav.setViewName("redirect:notification.do");
-		// return mav;
 	}
 
 	public void sendSingle(HttpServletRequest request, HttpServletResponse response) throws Exception {

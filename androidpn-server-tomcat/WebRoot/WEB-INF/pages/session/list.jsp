@@ -4,15 +4,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Admin Console</title>
+<title>控制台</title>
 <meta name="menu" content="session" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/tablesorter/style.css'/>" />
 <script type="text/javascript" src="<c:url value='/scripts/jquery.tablesorter.js'/>"></script>
 </head>
 
 <body>
-
-<h1>Sessions</h1>
 
 <table id="tableList" class="tablesorter" cellspacing="1">
 	<thead>
@@ -25,12 +23,12 @@
 			<th width="15%">Client IP</th>
 			<th width="25%">Created</th>
 			--%>
-			<th>Username</th>
-			<th>Resource</th>
-			<th>Status</th>
+			<th>设备号</th>
+			<th>客户端</th>
+			<th>状态</th>
 			<th>Presence</th>
-			<th>Client IP</th>
-			<th>Created</th>			
+			<th>客户端 IP</th>
+			<th>登录时间</th>			
 		</tr>
 	</thead>
 	<tbody>

@@ -3,36 +3,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Admin Console</title>
+    <title>控制台</title>
 	<meta name="menu" content="notification" />    
 </head>
 
 <body>
 
-<h1>Send Notifications</h1>
+<h1>发送通知</h1>
 
 <%--<div style="background:#eee; margin:20px 0px; padding:20px; width:500px; border:solid 1px #999;">--%>
 <div style="margin:20px 0px;">
-<form action="notification.do?action=send" method="post" style="margin: 0px;">
+<form action="/notification.do?action=send" method="post" style="margin: 0px;">
 <table width="600" cellpadding="4" cellspacing="0" border="0">
 <tr>
-	<td width="20%">To:</td>
-	<td width="80%">
-		<input type="radio" name="broadcast" value="A" checked="checked" />  All (Broadcast) 
-        <input type="radio" name="broadcast" value="N" /> Single Device 
+	<td width="15%">目标:</td>
+	<td width="85%">
+		<input type="radio" name="broadcast" value="A" checked="checked" />所有设备		
+        <input type="radio" name="broadcast" value="N" />指定设备
 	</td>
 </tr>
 <tr id="trUsername" style="display:none;">
-	<td>Username:</td>
-	<td><input type="text" id="username" name="username" value="" style="width:380px;" /></td>
+	<td>设备号:</td>
+	<td><input type="text" id="username" name="username" value="" style="width:380px;" />
+	<br/><span style="font-size:0.8em">多设备,分隔</span>
+	</td>
 </tr>
 <tr>
-	<td>Title:</td>
-	<td><input type="text" id="title" name="title" value="Dokdo Island" style="width:380px;" /></td>
+	<td>标题:</td>
+	<td><input type="text" id="title" name="title" value="控制台通知" style="width:380px;" /></td>
 </tr>
 <tr>
-	<td>Message:</td>
-	<td><textarea id="message" name="message" style="width:380px; height:80px;" >Dokdo is a Korean island, the far east of the Korean territory. No doubt! No question! Don't mention it any more!</textarea></td>
+	<td>内容:</td>
+	<td><textarea id="message" name="message" style="width:380px; height:80px;" >控制台发送的通知内容!</textarea></td>
 </tr>
 <%--
 <tr>
@@ -43,12 +45,12 @@
 <tr>
 	<td>URI:</td>
 	<td><input type="text" id="uri" name="uri" value="" style="width:380px;" />
-	    <br/><span style="font-size:0.8em">ex) http://www.dokdocorea.com, geo:37.24,131.86, tel:111-222-3333</span>
+	    <br/><span style="font-size:0.8em">http://www.contron.com.cn, geo:113.558467,22.389315, tel:0756-3865888</span>
 	</td>
 </tr>
 <tr>
 	<td>&nbsp;</td>
-	<td><input type="submit" value="Submit" /></td>
+	<td><input type="submit" value="发送" /></td>
 </tr>
 </table> 
 </form>

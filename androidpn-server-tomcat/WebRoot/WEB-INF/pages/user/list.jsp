@@ -4,15 +4,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Admin Console</title>
+<title>控制台</title>
 <meta name="menu" content="user" />
 <link rel="stylesheet" type="text/css" href="<c:url value='/styles/tablesorter/style.css'/>" />
 <script type="text/javascript" src="<c:url value='/scripts/jquery.tablesorter.js'/>"></script>
 </head>
 
 <body>
-
-<h1>Users</h1>
 
 <table id="tableList" class="tablesorter" cellspacing="1">
 	<thead>
@@ -24,11 +22,11 @@
 			<th width="20%">Email</th>
 			<th width="25%">Created</th>
 			--%>
-			<th>Online</th>
-			<th>Username</th>
-			<th>Name</th>
+			<th>是否在线</th>
+			<th>设备号</th>
+			<th>用户名</th>
 			<th>Email</th>
-			<th>Created</th>
+			<th>注册时间</th>
 		</tr>
 	</thead>
 	<tbody>
