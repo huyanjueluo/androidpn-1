@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.contron.androidpn.apnbb.Constants;
 import com.contron.androidpn.apnbb.NotifierConfig;
@@ -67,8 +66,7 @@ class Notifier {
                 intent.putExtra(Constants.INTENT_EXTRA_IQ, iq);
                 PendingIntent contentIntent = PendingIntent.getActivity(context, requestCode,
                         intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                notification.setLatestEventInfo(context, title, message,
-                        contentIntent);
+                notification.setLatestEventInfo(context, title, message, contentIntent);
                 notificationManager.notify(requestCode, notification);
                 requestCode++;
             } catch (ClassNotFoundException e) {
@@ -77,6 +75,22 @@ class Notifier {
         }
     }
 
+    public void notifyLocal(String title, String message) {
+
+        Notification notification = createNotification(message);
+        if (NotifierConfig.notifyActivity != null) {
+            try {
+                Intent intent = new Intent(context, Class.forName(NotifierConfig.notifyActivity));
+                PendingIntent contentIntent = PendingIntent.getActivity(context, requestCode,
+                        intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                notification.setLatestEventInfo(context, title, message, contentIntent);
+                notificationManager.notify(requestCode, notification);
+                requestCode++;
+            } catch (ClassNotFoundException e) {
+                Log.e(LOGTAG, e.getMessage(), e);
+            }
+        }
+    }
 
     public void notifyBroadcast(Intent intentSrc) {
         Log.d(LOGTAG, "notifyBroadcast()...");
@@ -90,7 +104,7 @@ class Notifier {
         String message = intentSrc.getStringExtra(Constants.NOTIFICATION_MESSAGE);
 
         if (isNotificationEnabled()) {
-               // Notification
+            // Notification
             Notification notification = createNotification(message);
 
             Intent intentClick = new Intent(Constants.ACTION_NOTIFICATION_CLICKED);
@@ -99,8 +113,7 @@ class Notifier {
             PendingIntent contentIntent = PendingIntent.getBroadcast(context, requestCode,
                     intentClick, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            notification.setLatestEventInfo(context, title, message,
-                    contentIntent);
+            notification.setLatestEventInfo(context, title, message, contentIntent);
             notificationManager.notify(requestCode, notification);
             requestCode++;
         } else {

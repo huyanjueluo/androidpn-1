@@ -38,10 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="org.androidpn.client.NotificationSettingsActivity"
-            android:label="Notification Settings" >
-        </activity>
         <service android:name="org.androidpn.client.ForegroundEnablingService"/>
         <service
             android:name="org.androidpn.client.NotificationService"

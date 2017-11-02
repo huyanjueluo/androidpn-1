@@ -5,36 +5,48 @@ import android.content.SharedPreferences;
 
 import com.contron.androidpn.apnbb.Constants;
 
-import org.jivesoftware.smack.packet.IQ;
-
 /**
  * Created by hupei on 2017/11/1.
  */
 
-public final class AndroidpnClient {
-    private static AndroidpnClient instance;
+public final class PushManager {
+    private static PushManager instance;
+    private boolean inited;
     private Notifier notifier;
     private SharedPreferences sharedPrefs;
     private SharedPreferences.Editor editor;
 
-    public static AndroidpnClient getInstance(Context appContext) {
+    public static PushManager getInstance() {
         // return instance;
         if (instance == null) {
-            synchronized (AndroidpnClient.class) {
-                instance = new AndroidpnClient(appContext);
+            synchronized (PushManager.class) {
+                instance = new PushManager();
             }
         }
         return instance;
     }
 
-    private AndroidpnClient(Context context) {
-        notifier = new Notifier(context);
-        sharedPrefs = context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-        editor = sharedPrefs.edit();
+    private PushManager() {
     }
 
-    public void notify(IQ iq, String title, String message) {
-        notifier.notify(iq, title, message);
+    public void initialize(Context appContext) {
+        init(appContext);
+        ServiceManager serviceManager = new ServiceManager(appContext);
+        serviceManager.startService();
+
+    }
+
+    private void init(Context context) {
+        if (!inited) {
+            inited = true;
+            notifier = new Notifier(context);
+            sharedPrefs = context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+            editor = sharedPrefs.edit();
+        }
+    }
+
+    public void notify(String title, String message) {
+        notifier.notifyLocal(title, message);
     }
 
     public String getUserName() {

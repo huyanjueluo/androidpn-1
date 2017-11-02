@@ -15,22 +15,24 @@
  */
 package org.androidpn.client;
 
-import java.util.Properties;
-
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-
 import com.contron.androidpn.apnbb.Constants;
 import com.contron.androidpn.apnbb.NotifierConfig;
 
 import org.jivesoftware.smack.SmackConfiguration;
 
-/** 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+/**
  * This class is to manage the notificatin service and to load the configuration.
  *
  * @author Sehwan Noh (devnoh@gmail.com)
@@ -116,6 +118,21 @@ public final class ServiceManager {
         context.stopService(intent);
     }
 
+    private boolean isServiceRunning(Context ctx, String className) {
+        boolean isRunning = false;
+        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> servicesList = activityManager.getRunningServices(Integer.MAX_VALUE);
+        Iterator<ActivityManager.RunningServiceInfo> l = servicesList.iterator();
+        while (l.hasNext()) {
+            ActivityManager.RunningServiceInfo si = l.next();
+            if (className.equals(si.service.getClassName())) {
+                isRunning = true;
+                break;
+            }
+        }
+        return isRunning;
+    }
+
     private Properties loadProperties() {
         Properties props = new Properties();
         try {
@@ -133,11 +150,4 @@ public final class ServiceManager {
         editor.putInt(Constants.NOTIFICATION_ICON, iconId);
         editor.commit();
     }
-
-    public static void viewNotificationSettings(Context context) {
-        Intent intent = new Intent().setClass(context,
-                NotificationSettingsActivity.class);
-        context.startActivity(intent);
-    }
-
 }

@@ -19,8 +19,8 @@ import com.contron.androidpn.apnbb.BroadcastUtil;
 import com.contron.androidpnclient.notify.NotifyListActivity;
 import com.contron.androidpnclient.notify.NotifySettingsActivity;
 
-import org.androidpn.client.AndroidpnClient;
 import org.androidpn.client.LogUtil;
+import org.androidpn.client.PushManager;
 import org.androidpn.client.ServiceManager;
 
 
@@ -142,8 +142,8 @@ public class MainActivity extends ActionBarActivity {
             } else if (BroadcastUtil.APN_STATUS_LOGIN_SUCCESS.equals(action)) {
                 Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
             } else if (BroadcastUtil.APN_STATUS_REGISTER_SUCCESS.equals(action)) {
-                Toast.makeText(context, "注册成功" + AndroidpnClient.getInstance(
-                        getApplicationContext()).getUserName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "注册成功" + PushManager.getInstance()
+                        .getUserName(), Toast.LENGTH_SHORT).show();
             }
         }
     }
