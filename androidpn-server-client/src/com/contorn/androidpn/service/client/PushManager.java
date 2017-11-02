@@ -2,22 +2,22 @@ package com.contorn.androidpn.service.client;
 
 import java.net.URLEncoder;
 
-public final class AndroidpnServerClient {
+public final class PushManager {
 
 	private static final String URL = "http://10.7.3.170:8080/";
-	private static AndroidpnServerClient instance;
+	private static PushManager instance;
 
-	public static AndroidpnServerClient getInstance() {
+	public static PushManager getInstance() {
 		// return instance;
 		if (instance == null) {
-			synchronized (AndroidpnServerClient.class) {
-				instance = new AndroidpnServerClient();
+			synchronized (PushManager.class) {
+				instance = new PushManager();
 			}
 		}
 		return instance;
 	}
 
-	private AndroidpnServerClient() {
+	private PushManager() {
 	}
 
 	/**
