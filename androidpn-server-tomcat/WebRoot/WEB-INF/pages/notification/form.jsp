@@ -18,7 +18,7 @@
 <tr>
 	<td width="20%">To:</td>
 	<td width="80%">
-		<input type="radio" name="broadcast" value="Y" checked="checked" />  All (Broadcast) 
+		<input type="radio" name="broadcast" value="A" checked="checked" />  All (Broadcast) 
         <input type="radio" name="broadcast" value="N" /> Single Device 
 	</td>
 </tr>
