@@ -11,10 +11,9 @@ import com.contron.androidpn.apnbb.Constants;
 
 public final class PushManager {
     private static PushManager instance;
-    private boolean inited;
+    private boolean initialize;
     private Notifier notifier;
     private SharedPreferences sharedPrefs;
-    private SharedPreferences.Editor editor;
 
     public static PushManager getInstance() {
         // return instance;
@@ -30,19 +29,25 @@ public final class PushManager {
     }
 
     public void initialize(Context appContext) {
-        init(appContext);
-        ServiceManager serviceManager = new ServiceManager(appContext);
-        serviceManager.startService();
-
+        if (!initialize) {
+            initialize = true;
+            init(appContext);
+            ServiceManager serviceManager = new ServiceManager(appContext);
+            serviceManager.startService();
+        }
     }
 
     private void init(Context context) {
-        if (!inited) {
-            inited = true;
-            notifier = new Notifier(context);
-            sharedPrefs = context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-            editor = sharedPrefs.edit();
-        }
+
+        notifier = new Notifier(context);
+        sharedPrefs = context.getSharedPreferences(Constants.SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+
+    }
+
+    public void setNotificationIcon(int iconId) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putInt(Constants.NOTIFICATION_ICON, iconId);
+        editor.commit();
     }
 
     public void notify(String title, String message) {
@@ -55,16 +60,19 @@ public final class PushManager {
     }
 
     public void setNotificationEnabled(boolean enabled) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putBoolean(Constants.SETTINGS_NOTIFICATION_ENABLED, enabled);
         editor.commit();
     }
 
     public void setNotificationSoundEnabled(boolean enabled) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putBoolean(Constants.SETTINGS_SOUND_ENABLED, enabled);
         editor.commit();
     }
 
     public void setNotificationVibrateEnabled(boolean enabled) {
+        SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putBoolean(Constants.SETTINGS_VIBRATE_ENABLED, enabled);
         editor.commit();
     }

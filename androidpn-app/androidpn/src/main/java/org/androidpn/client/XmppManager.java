@@ -38,7 +38,7 @@ import org.jivesoftware.smack.XMPPConnection;
  *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public class XmppManager {
+public final class XmppManager {
 
     private static final String LOGTAG = LogUtil.makeLogTag(XmppManager.class);
 
@@ -112,10 +112,12 @@ public class XmppManager {
         Thread.currentThread().dumpStack();
         terminatePersistentConnection();
     }
+
     public void startReconnectionThread() {
         Log.d(LOGTAG, "startReconnectionThread()...");
         BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_ACTION_RECONNECT);
     }
+
     public void terminatePersistentConnection() {
         Log.d(LOGTAG, "terminatePersistentConnection()...");
         BroadcastUtil.sendBroadcast(context, BroadcastUtil.APN_ACTION_DISCONNECT);

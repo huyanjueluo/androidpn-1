@@ -37,7 +37,7 @@ import java.util.Properties;
  *
  * @author Sehwan Noh (devnoh@gmail.com)
  */
-public final class ServiceManager {
+final class ServiceManager {
 
     private static final String LOGTAG = LogUtil
             .makeLogTag(ServiceManager.class);
@@ -97,11 +97,14 @@ public final class ServiceManager {
                 callbackActivityPackageName);
         editor.putString(Constants.CALLBACK_ACTIVITY_CLASS_NAME,
                 callbackActivityClassName);
+        editor.putInt(Constants.NOTIFICATION_ICON, context.getApplicationInfo().icon);
         editor.commit();
         SmackConfiguration.setKeepAliveInterval(60000);
     }
 
     public void startService() {
+        if (isServiceRunning(context, NotificationService.class.getName()))
+            return;
         Thread serviceThread = new Thread(new Runnable() {
             @Override
             public void run() {

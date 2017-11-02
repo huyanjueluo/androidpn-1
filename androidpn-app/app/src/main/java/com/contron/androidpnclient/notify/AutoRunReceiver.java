@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.contron.androidpnclient.R;
-
 import org.androidpn.client.LogUtil;
-import org.androidpn.client.ServiceManager;
+import org.androidpn.client.PushManager;
 
 
 public class AutoRunReceiver extends BroadcastReceiver {
@@ -22,9 +20,7 @@ public class AutoRunReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             Log.d(LOG_TAG, "action_boot_completed");
-            final ServiceManager serviceManager = new ServiceManager(context);
-            serviceManager.setNotificationIcon(R.mipmap.ic_launcher);
-            serviceManager.startService();
+            PushManager.getInstance().initialize(context.getApplicationContext());
         }
     }
 }

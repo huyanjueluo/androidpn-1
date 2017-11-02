@@ -21,8 +21,6 @@ import com.contron.androidpnclient.notify.NotifySettingsActivity;
 
 import org.androidpn.client.LogUtil;
 import org.androidpn.client.PushManager;
-import org.androidpn.client.ServiceManager;
-
 
 public class MainActivity extends ActionBarActivity {
     private static final String LOG_TAG = LogUtil.makeLogTag(MainActivity.class);
@@ -38,9 +36,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         topTextView = (TextView) findViewById(R.id.top_textview);
         login = (Button) findViewById(R.id.bt_login);
-        final ServiceManager serviceManager = new ServiceManager(this);
-        serviceManager.setNotificationIcon(R.mipmap.ic_launcher);
-        serviceManager.startService();
 
         lbm = LocalBroadcastManager.getInstance(this);
         Log.d(LOG_TAG, "localbroadcast......" + lbm.toString());
