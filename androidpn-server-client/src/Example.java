@@ -12,15 +12,16 @@ public class Example {
 
 	@Test
 	public void sendSingle() {
-		String res = PushManager.getInstance().sendSingle("123", "123",
-				"b737c188-513e-3546-8952-b74f37136c35");
+		String extras = "{\"type\": 2,\"applyId\": 1}";
+		String res = PushManager.getInstance().sendSingle("Í¨Öª", "ÄÚÈÝ", "b0d5d22c-3d3f-36df-9be0-47c063ffbc50", extras);
 		System.out.println(res);
 	}
 
 	@Test
 	public void sendMultiple() {
 		String res = PushManager.getInstance().sendMultiple("333", "444",
-				new String[] { "e509a0a4-cea6-3cff-a9b0-0e98a36c5fd4", "b737c188-513e-3546-8952-b74f37136c35","68d96b1c-1ea8-3117-b00a-5e7a0583f46e" });
+				new String[] { "e509a0a4-cea6-3cff-a9b0-0e98a36c5fd4", "b737c188-513e-3546-8952-b74f37136c35",
+						"68d96b1c-1ea8-3117-b00a-5e7a0583f46e" });
 		System.out.println(res);
 	}
 

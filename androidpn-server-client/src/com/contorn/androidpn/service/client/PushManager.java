@@ -46,9 +46,10 @@ public final class PushManager {
 	 *            通知内容
 	 * @param username
 	 *            用户username
+	 * @param extras
 	 * @return
 	 */
-	public String sendSingle(String title, String message, String username) {
+	public String sendSingle(String title, String message, String username, String extras) {
 		final StringBuilder parameter = new StringBuilder();
 		parameter.append("action=sendSingle");
 		parameter.append("&username=");
@@ -58,6 +59,7 @@ public final class PushManager {
 		parameter.append("&message=");
 		parameter.append(message);
 		parameter.append("&uri=");
+		parameter.append(extras);
 		parameter.append(""); // 和推送给iPhone格式保持一致
 		String resp = GetPostUtil.send("POST", URL + "notification_api.do", parameter);
 		return resp;

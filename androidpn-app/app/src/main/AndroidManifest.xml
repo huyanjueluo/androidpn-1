@@ -38,16 +38,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name="org.androidpn.client.ForegroundEnablingService" />
-        <service
-            android:name="org.androidpn.client.NotificationService"
-            android:enabled="true"
-            android:label="NotificationService">
-            <intent-filter>
-                <action android:name="org.androidpn.client.NotificationService" />
-            </intent-filter>
-        </service>
-
         <activity
             android:name=".notify.NotifyListActivity"
             android:label="@string/title_activity_notify_list"></activity>

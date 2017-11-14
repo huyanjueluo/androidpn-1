@@ -100,6 +100,7 @@ public class MainActivity extends ActionBarActivity {
             filter.addAction(BroadcastUtil.ANDROIDPN_MSG_RECEIVER_READY);
             filter.addAction(BroadcastUtil.APN_STATUS_LOGIN_SUCCESS);
             filter.addAction(BroadcastUtil.APN_STATUS_REGISTER_SUCCESS);
+
             lbm.registerReceiver(this, filter);
         }
 

@@ -145,7 +145,8 @@ public class NotificationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        return super.onStartCommand(intent, Service.START_REDELIVER_INTENT, startId);
+        //return super.onStartCommand(intent, Service.START_REDELIVER_INTENT, startId);
+        return Service.START_STICKY;
     }
 
     @Override
